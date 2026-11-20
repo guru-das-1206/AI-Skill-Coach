@@ -160,7 +160,7 @@ if "messages" not in st.session_state:
         st.session_state.user_data = {"step": "ask_role"}
         greeting = "Hello! I'm Maya. Tell me: **what exam or job role are you preparing for?**"
     st.session_state.messages.append({"role": "assistant", "content": greeting, "is_new": True})
-
+st.sidebar.markdown("")
 # ==========================================
 # 5. SIDEBAR
 # ==========================================
