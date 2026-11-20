@@ -15,7 +15,7 @@ except ImportError:
 # ==========================================
 # 1. PREMIUM UI/UX & PAGE CONFIG
 # ==========================================
-st.set_page_config(page_title="Maya AI Coach", page_icon="🧑‍🏫", layout="wide")
+st.set_page_config(page_title="Maya AI Coach", page_icon="🧑‍🏫", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown("""
     <style>
