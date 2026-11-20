@@ -3,4 +3,4 @@ google-genai
 gTTS
 pandas
 streamlit-autorefresh
-pillow
+Pillow
