@@ -128,7 +128,7 @@ def play_voice(text, tld='co.uk'):
 def transcribe_audio(audio_file):
     try:
         audio_bytes = audio_file.read()
-        response = client.models.generate_content(model="gemini-1.5-flash", contents=["Transcribe exactly. Return only text.", types.Part.from_bytes(data=audio_bytes, mime_type="audio/wav")])
+        response = client.models.generate_content(model="gemini-2.0-flash", contents=["Transcribe exactly. Return only text.", types.Part.from_bytes(data=audio_bytes, mime_type="audio/wav")])
         return response.text.strip()
     except: return None
 
