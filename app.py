@@ -16,12 +16,6 @@ try:
 except ImportError:
     HAS_AUTOREFRESH = False
 
-try:
-    from streamlit_mic_recorder import mic_recorder
-    HAS_MIC = True
-except ImportError:
-    HAS_MIC = False
-
 # ==========================================
 # 1. PREMIUM UI/UX & PAGE CONFIG
 # ==========================================
@@ -39,7 +33,6 @@ st.markdown("""
     [data-testid="stSidebar"] * { color: #f8fafc !important; }
     [data-testid="stSidebar"] .stButton>button { color: #000000 !important; }
     
-    /* Google Meet Style Interview Room */
     .meet-room { background-color: #202124; padding: 30px; border-radius: 20px; border: 1px solid #3c4043; margin-bottom: 20px; }
     .video-grid { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
     .video-card { background-color: #3c4043; width: 250px; height: 180px; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #5f6368; }
@@ -47,7 +40,6 @@ st.markdown("""
     .avatar { font-size: 60px; margin-bottom: 10px; }
     .name-tag { background-color: rgba(0,0,0,0.6); padding: 4px 12px; border-radius: 10px; font-size: 14px; }
     
-    /* Skill Builder Project Card */
     .project-card { background-color: #1e293b; padding: 20px; border-radius: 15px; border-left: 5px solid #10b981; margin-bottom: 15px; }
     .project-title { color: #10b981 !important; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
     
@@ -220,7 +212,7 @@ if mode == "🧠 Rapid Quiz" and st.session_state.user_data.get("step") == "coac
                     st.session_state.user_data["quiz_state"]["current_q"] = None
                     st.rerun()
 
-# --- GOOGLE MEET STYLE VOICE INTERVIEW ---
+# --- GOOGLE MEET STYLE VOICE INTERVIEW (Built-in Audio Input) ---
 elif mode == "🎤 Voice Interview":
     st.markdown("""
     <div class="meet-room">
@@ -251,14 +243,18 @@ elif mode == "🎤 Voice Interview":
                 if audio: st.audio(audio, format="audio/mp3", autoplay=True)
                 msg["is_new"] = False
 
-    if HAS_MIC:
-        st.write("---")
-        st.write("🎙️ **Speak your answer now...**")
-        audio = mic_recorder(start_prompt="Click to Speak", stop_prompt="Click to Stop", just_once=True, key='recorder')
-        if audio:
-            with st.spinner("🎧 Transcribing instantly..."):
-                transcribed = transcribe_audio(audio['bytes'])
-                if transcribed: final_input = transcribed
+    st.write("---")
+    st.write("🎙️ **Record your answer:**")
+    # THIS IS THE BULLETPROOF STREAMLIT AUDIO INPUT
+    audio_value = st.audio_input("Record your interview answer")
+    if audio_value:
+        with st.spinner("🎧 Transcribing instantly..."):
+            transcribed = transcribe_audio(audio_value.read())
+            if transcribed: 
+                final_input = transcribed
+                st.success(f"**You said:** {transcribed}")
+                time.sleep(1) # Brief pause so user sees what they said
+                st.rerun()
 
 # --- WRITTEN EXAM, GENERAL, SKILL BUILDER, FILE UPLOAD ---
 else:
