@@ -1,6 +1,9 @@
-streamlit==1.45.0
+streamlit
 google-genai
 gTTS
 pandas
 streamlit-autorefresh
 Pillow
+streamlit-mic-recorder
+pypdf
+openpyxl
