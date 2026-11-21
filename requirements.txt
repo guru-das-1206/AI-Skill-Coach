@@ -4,6 +4,5 @@ gTTS
 pandas
 streamlit-autorefresh
 Pillow
-streamlit-mic-recorder
 PyPDF2
 openpyxl
